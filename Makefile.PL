@@ -5,9 +5,9 @@
 # Author          : Ulrich Pfeifer
 # Created On      : Fri Dec 13 13:32:32 1996
 # Last Modified By: Ulrich Pfeifer
-# Last Modified On: Mon Jan 13 14:51:43 1997
+# Last Modified On: Thu Jan 16 16:28:22 1997
 # Language        : CPerl
-# Update Count    : 4
+# Update Count    : 5
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -27,4 +27,5 @@ WriteMakefile
    'clean'          => {'FILES' => '*~ *.bak *.old infobrief t/*~ t/test.ps'},
    'dist'           => { SUFFIX => 'gz', COMPRESS => 'gzip -f' },
    'PL_FILES'       => {'infobrief.PL' => 'infobrief'},
+   'EXE_FILES'      => [qw(infobrief)],
   );

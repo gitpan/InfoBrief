@@ -5,9 +5,9 @@
 # Author          : Ulrich Pfeifer
 # Created On      : Wed Dec  4 13:40:41 1996
 # Last Modified By: Ulrich Pfeifer
-# Last Modified On: Mon Jan 13 14:49:36 1997
+# Last Modified On: Thu Jan 16 16:20:10 1997
 # Language        : CPerl
-# Update Count    : 77
+# Update Count    : 79
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -94,7 +94,7 @@ package InfoBrief;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = '0.13';
+$VERSION = '0.14';
 
 my $POSTAMT = '44227 Dortmund 52';
 my $STEMPEL;
@@ -136,6 +136,12 @@ my $numbering    = 1;           # running numbers?
   #$PROLOG =~ s/\$(\w+)/eval "\$$1"/eg;
 }
 
+my @sender = (
+              'Fachbereich Informatik Lehrstuhl VI',
+              'UNIVERSITÄT DORTMUND',
+              'Aug.-Schmidt-Str. 12, 44221 Dortmund',
+             );
+
 sub preamble {
   my $self = shift;
   $self->{preamble};
@@ -176,6 +182,14 @@ sub new {
     ((exists $parm{infobrief})?$parm{infobrief}:$infobrief)?'true':'false';
   $PROLOG =~ s/\$(\w+)/$self->{$1}/g;
 
+  my @sender = @sender;
+  if ($parm{sender}) {
+    @sender = @{$parm{sender}};
+  }
+  my ($SENDER,$line);
+  for ($line=0;$line<@sender;$line++) {
+    $SENDER .= "$line ($sender[$line]) Cshow\n";
+  }
   $self->{'preamble'} = <<EOF
 %!PS-Adobe-2.0 EPSF-1.2
 %%Title: (FGIR Umschlaege)
@@ -234,9 +248,7 @@ gsave
 /AvantGarde-Demi-ISO findfont 9 scalefont setfont
 %$border 3 mul $border 3 mul moveto
 %90 rotate
-0 (Fachbereich Informatik Lehrstuhl VI) Cshow
-1 (UNIVERSITÄT DORTMUND) Cshow
-2 (Aug.-Schmidt-Str. 12, 44221 Dortmund) Cshow
+$SENDER
 grestore
 
 % INFOBRIEF

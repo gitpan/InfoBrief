@@ -34,17 +34,10 @@ print OUT <<'!NO!SUBS!';
 # Author          : Ulrich Pfeifer
 # Created On      : Wed Dec  4 15:57:13 1996
 # Last Modified By: Ulrich Pfeifer
-#ifndef packed
-# Last Modified On: Mon Jan 13 14:55:26 1997
-#else packed
+# Last Modified On: Thu Jan 16 16:23:25 1997
 # Last Modified On: Mon Jan 13 11:37:31 1997
-#endif packed
 # Language        : CPerl
-#ifndef packed
-# Update Count    : 27
-#else packed
-# Update Count    : 26
-#endif packed
+# Update Count    : 30
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -96,6 +89,7 @@ GetOptions (\%OPT,
             'help!',
             'man!',
             'packed!',
+            'sender=s@',
             'infobrief!',
             'numbering!',
             'verbose:i',
@@ -215,6 +209,10 @@ Ausgabe der Umschläge für Auslandsadressen.
 =item B<-nopacked>
 
 Use a the nonpacked input format: paragraphs separated by blank lines.
+
+=item B<-sender> I<line>
+
+Specify a sender line. May be given multiple times.
 
 =head1 AUTHOR
 
