@@ -34,9 +34,9 @@ print OUT <<'!NO!SUBS!';
 # Author          : Ulrich Pfeifer
 # Created On      : Wed Dec  4 15:57:13 1996
 # Last Modified By: Ulrich Pfeifer
-# Last Modified On: Thu Dec 19 13:24:18 1996
+# Last Modified On: Tue Jan  7 15:08:02 1997
 # Language        : CPerl
-# Update Count    : 20
+# Update Count    : 21
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -158,7 +158,7 @@ __END__
 
 =head1 NAME
 
-try -- Erzeuge Poscript für Infobrief Umschläge
+infobrief -- Erzeuge Poscript für Infobrief Umschläge
 
 =head1 SYNOPSIS
 

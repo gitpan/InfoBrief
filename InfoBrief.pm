@@ -5,9 +5,9 @@
 # Author          : Ulrich Pfeifer
 # Created On      : Wed Dec  4 13:40:41 1996
 # Last Modified By: Ulrich Pfeifer
-# Last Modified On: Thu Dec 19 16:53:58 1996
+# Last Modified On: Tue Jan  7 15:08:21 1997
 # Language        : CPerl
-# Update Count    : 72
+# Update Count    : 73
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -94,7 +94,7 @@ package InfoBrief;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = '0.11';
+$VERSION = '0.12';
 
 my $POSTAMT = '44227 Dortmund 52';
 my $STEMPEL;
