@@ -5,9 +5,9 @@
 # Author          : Ulrich Pfeifer
 # Created On      : Wed Dec  4 13:40:41 1996
 # Last Modified By: Ulrich Pfeifer
-# Last Modified On: Fri Dec 13 13:45:49 1996
+# Last Modified On: Thu Dec 19 16:53:58 1996
 # Language        : CPerl
-# Update Count    : 58
+# Update Count    : 72
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -65,7 +65,7 @@ Set custom border size. Default is C<20>.
 =item B<amt> I<string>
 
 Set the Postamt for the "Entgelt bezahlt" stamp. Default is C<'44227
-Dortmund 54'>.
+Dortmund 52'>.
 
 =item B<stempel>
 
@@ -94,9 +94,9 @@ package InfoBrief;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = '0.10';
+$VERSION = '0.11';
 
-my $POSTAMT = '44227 Dortmund 54';
+my $POSTAMT = '44227 Dortmund 52';
 my $STEMPEL;
 my $PROLOG;
 # a4 paper size
@@ -109,10 +109,18 @@ my $a5_height    = $a4_width;
 my $c5_width     = 459;
 my $c5_height    = 649;
 
+# b5j paper size
+my $b5j_width     = 516;
+my $b5j_height    = 729;
+
+# b5 paper size
+my $b5_width     = 499;
+my $b5_height    = 708;
+
 my $border       = 20;
 my $width        = $c5_width;
 my $height       = $c5_height;
-my $s_s          = 5;           # scale stamp
+my $s_s          = 4;           # scale stamp
 my $stempel      = 1;           # stamp 'Gebühr bezahlt'
 my $infobrief    = 0;           # banner 'Infobief'
 my $numbering    = 1;           # running numbers?
@@ -144,6 +152,9 @@ sub new {
   } elsif (exists $parm{a5}) {
     $width  = $a5_width;
     $height = $a5_height;
+  } elsif (exists $parm{b5}) {
+    $width  = $b5_width;
+    $height = $b5_height;
   } 
   $self->{width}   = $parm{width}  || $width;
   $self->{height}  = $parm{height} || $height;
@@ -199,9 +210,9 @@ gsave
 568 $scale div 328 $scale div scale
 $STEMPEL
 grestore
-12 18 moveto
+17 18 moveto
 Stempel {
-  /AvantGarde-Demi-ISO findfont 7 scalefont setfont
+  /AvantGarde-Demi-ISO findfont 8 scalefont setfont
   ($amt) show
 } {
   newpath
@@ -213,7 +224,7 @@ Stempel {
 grestore
 % LS6 Stempel
 gsave
-/AvantGarde-Demi-ISO findfont 8 scalefont setfont
+/AvantGarde-Demi-ISO findfont 9 scalefont setfont
 %$border 3 mul $border 3 mul moveto
 %90 rotate
 0 (Fachbereich Informatik Lehrstuhl VI) Cshow
@@ -275,8 +286,8 @@ fill
 % running number
 Numbering {
    newpath
-   $width $border sub $border moveto
-   20 20 Rechteck
+   $width $border 2 mul sub $border  2 mul moveto
+   30 30 Rechteck
    Background {0.95}  {1.0} ifelse
    setgray
    fill
@@ -285,7 +296,7 @@ Numbering {
    /AvantGarde-Demi-ISO
    findfont 8 scalefont setfont
    
-   $width $border sub $border moveto
+   $width $border 2 mul sub $border 2 mul moveto
    ($self->{page}) show
 } if
 

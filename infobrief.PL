@@ -34,9 +34,9 @@ print OUT <<'!NO!SUBS!';
 # Author          : Ulrich Pfeifer
 # Created On      : Wed Dec  4 15:57:13 1996
 # Last Modified By: Ulrich Pfeifer
-# Last Modified On: Fri Dec 13 13:52:19 1996
+# Last Modified On: Thu Dec 19 13:24:18 1996
 # Language        : CPerl
-# Update Count    : 19
+# Update Count    : 20
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -79,6 +79,7 @@ my %CC = (
 
 GetOptions (\%OPT,
             'a4!',
+            'b5!',
             'stempel!',
             'foreign!',
             'help!',
