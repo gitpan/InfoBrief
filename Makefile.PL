@@ -5,9 +5,9 @@
 # Author          : Ulrich Pfeifer
 # Created On      : Fri Dec 13 13:32:32 1996
 # Last Modified By: Ulrich Pfeifer
-# Last Modified On: Fri Dec 13 13:48:10 1996
+# Last Modified On: Mon Jan 13 14:51:43 1997
 # Language        : CPerl
-# Update Count    : 3
+# Update Count    : 4
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -28,4 +28,3 @@ WriteMakefile
    'dist'           => { SUFFIX => 'gz', COMPRESS => 'gzip -f' },
    'PL_FILES'       => {'infobrief.PL' => 'infobrief'},
   );
-

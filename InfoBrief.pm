@@ -5,9 +5,9 @@
 # Author          : Ulrich Pfeifer
 # Created On      : Wed Dec  4 13:40:41 1996
 # Last Modified By: Ulrich Pfeifer
-# Last Modified On: Tue Jan  7 15:08:21 1997
+# Last Modified On: Mon Jan 13 14:49:36 1997
 # Language        : CPerl
-# Update Count    : 73
+# Update Count    : 77
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -94,7 +94,7 @@ package InfoBrief;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = '0.12';
+$VERSION = '0.13';
 
 my $POSTAMT = '44227 Dortmund 52';
 my $STEMPEL;
@@ -116,6 +116,10 @@ my $b5j_height    = 729;
 # b5 paper size
 my $b5_width     = 499;
 my $b5_height    = 708;
+
+# c6 paper size (309,613)
+my $c6_width     = 312;
+my $c6_height    = 624;
 
 my $border       = 20;
 my $width        = $c5_width;
@@ -155,6 +159,9 @@ sub new {
   } elsif (exists $parm{b5}) {
     $width  = $b5_width;
     $height = $b5_height;
+  } elsif (exists $parm{c6}) {
+    $width  = $c6_width;
+    $height = $c6_height;
   } 
   $self->{width}   = $parm{width}  || $width;
   $self->{height}  = $parm{height} || $height;

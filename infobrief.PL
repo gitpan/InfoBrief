@@ -25,7 +25,7 @@ print "Extracting $file (with variable substitutions)\n";
 # You can use $Config{...} to use Configure variables.
 
 print OUT <<"!GROK!THIS!";
-$Config{'startperl'} 
+$Config{'startperl'} -*- 
 !GROK!THIS!
 print OUT <<'!NO!SUBS!';
 #                              -*- Mode: Perl -*- 
@@ -34,9 +34,17 @@ print OUT <<'!NO!SUBS!';
 # Author          : Ulrich Pfeifer
 # Created On      : Wed Dec  4 15:57:13 1996
 # Last Modified By: Ulrich Pfeifer
-# Last Modified On: Tue Jan  7 15:08:02 1997
+#ifndef packed
+# Last Modified On: Mon Jan 13 14:55:26 1997
+#else packed
+# Last Modified On: Mon Jan 13 11:37:31 1997
+#endif packed
 # Language        : CPerl
-# Update Count    : 21
+#ifndef packed
+# Update Count    : 27
+#else packed
+# Update Count    : 26
+#endif packed
 # Status          : Unknown, Use with caution!
 # 
 # (C) Copyright 1996, Universität Dortmund, all rights reserved.
@@ -77,13 +85,17 @@ my %CC = (
        'BG'  => 'Bulgarien',
        );
 
+$OPT{packed} = 1;
+
 GetOptions (\%OPT,
             'a4!',
             'b5!',
+            'c6!',
             'stempel!',
             'foreign!',
             'help!',
             'man!',
+            'packed!',
             'infobrief!',
             'numbering!',
             'verbose:i',
@@ -97,43 +109,54 @@ unless (exists $OPT{stempel}) {
 
 my $x = new InfoBrief %OPT;
 
+
 print $x->preamble;
 
-$/="\r\n";
-chomp($_ = <>);
-@fld = split /;/, $_;
+if ($OPT{packed}) {
+  $/="\r\n";
+  chomp($_ = <>);
+  @fld = split /;/, $_;
+} else {
+  $/="";
+}
 
 while (<>) {
-  chomp;
-  $_ =~ s/;;/; ;/g;
-  @rec = split /;/, $_;
-  my %rec;
-  for (@fld) {
-    $rec{$_} = shift @rec;
-    $rec{$_} =~ s/^ $//;
-    #print STDERR "$_\t$rec{$_}\n";
-  }
-  if ($rec{Land}) {
-    next unless $OPT{foreign};
-    $rec{S} = $rec{Land};
-    $rec{Land} = $CC{$rec{S}};
-    print STDERR "WOAH: $rec{S}: $rec{Land}\n" ;
-    if ($rec{S} eq 'USA') {
-      $rec{S}   = '';
-      $rec{PLZ} = '';
+  if ($OPT{packed}) {
+    chomp;
+    $_ =~ s/;;/; ;/g;
+    @rec = split /;/, $_;
+    my %rec;
+    for (@fld) {
+      $rec{$_} = shift @rec;
+      $rec{$_} =~ s/^ $//;
+      #print STDERR "$_\t$rec{$_}\n";
     }
+    if ($rec{Land}) {
+      next unless $OPT{foreign};
+      $rec{S} = $rec{Land};
+      $rec{Land} = $CC{$rec{S}};
+      print STDERR "WOAH: $rec{S}: $rec{Land}\n" ;
+      if ($rec{S} eq 'USA') {
+        $rec{S}   = '';
+        $rec{PLZ} = '';
+      }
+    } else {
+      next if $OPT{foreign};
+    }
+    #$c_rec ++;
+    #$row = int(($c_rec-1)/3)+1;
+    #next if $row % 9;
+    record(%rec);
+    #last if ++$x > 10;
   } else {
-    next if $OPT{foreign};
+    my @rec = split /\n/, $_;
+    my $last = pop @rec;
+    push @rec, '', $last;
+    print $x->page(@rec);
   }
-  #$c_rec ++;
-  #$row = int(($c_rec-1)/3)+1;
-  #next if $row % 9;
-  record(%rec);
-  #last if ++$x > 10;
 }
 
 print $x->trailer;
-
 
 sub record {
   my %rec = @_;
@@ -189,12 +212,15 @@ Ausgabe der Umschläge für Auslandsadressen.
 
 =item B<verbose> [I<number>]
 
+=item B<-nopacked>
+
+Use a the nonpacked input format: paragraphs separated by blank lines.
+
 =head1 AUTHOR
 
 Ulrich Pfeifer E<lt>F<pfeifer@ls6.informatik.uni-dortmund.de>E<gt>
 
 =cut
-
 
 !NO!SUBS!
 
